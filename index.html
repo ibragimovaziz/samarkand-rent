@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173f35">
+<title>Samarkand Rent</title>
+<style>
+:root{--green:#173f35;--gold:#c59b55;--bg:#f5f3ee;--ink:#202723;--muted:#6d7771}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:var(--ink)}
+header{background:var(--green);color:white;padding:25px 20px 30px;border-radius:0 0 24px 24px}
+.brand{font-size:13px;letter-spacing:2px;color:#e8c98e;font-weight:bold}
+h1{font-size:28px;margin:10px 0 6px}header p{margin:0;color:#e3e9e5;line-height:1.45}
+main{padding:18px;max-width:650px;margin:auto}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
+button{border:0;border-radius:13px;padding:14px;font-size:15px;font-weight:bold;cursor:pointer}
+.tab{background:white;color:var(--green);border:1px solid #e3e5df}.tab.active{background:var(--green);color:white}
+.panel{background:white;border-radius:18px;padding:18px;box-shadow:0 5px 20px #162b2010}
+h2{font-size:20px;margin:0 0 12px}.muted{color:var(--muted);font-size:14px;line-height:1.5}
+.field{margin:14px 0}label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px}
+input,select,textarea{width:100%;padding:13px;border:1px solid #dfe4df;border-radius:11px;font-size:15px;background:#fff}
+textarea{min-height:80px;resize:vertical}.primary{width:100%;background:var(--gold);color:#1f261f;margin-top:12px}
+.card{border:1px solid #e8eae5;border-radius:14px;padding:14px;margin:12px 0}.card strong{display:block;margin-bottom:5px}
+.pill{display:inline-block;background:#edf3ef;color:var(--green);border-radius:20px;padding:5px 9px;font-size:12px;margin-top:5px}
+.hidden{display:none}.notice{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.5}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<header><div class="brand">SAMARKAND RENT</div><h1>Найдите жильё в Самарканде</h1><p>Квартиры для гостей города и удобное сотрудничество с собственниками.</p></header>
+<main>
+<div class="tabs">
+<button class="tab active" id="findTab" onclick="show('find')">🏠 Найти квартиру</button>
+<button class="tab" id="ownerTab" onclick="show('owner')">🔑 Сдать квартиру</button>
+</div>
+<section class="panel" id="find">
+<h2>Подобрать квартиру</h2><p class="muted">Оставьте запрос — мы поможем подобрать подходящий вариант.</p>
+<div class="field"><label>Дата заезда</label><input id="arrival" type="date"></div>
+<div class="field"><label>Дата выезда</label><input id="departure" type="date"></div>
+<div class="field"><label>Количество гостей</label><select id="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></div>
+<div class="field"><label>Ваше имя</label><input id="guestName" placeholder="Как к вам обращаться"></div>
+<div class="field"><label>Телефон или Telegram</label><input id="guestContact" placeholder="@username или номер телефона"></div>
+<button class="primary" onclick="send('find')">Отправить запрос</button>
+</section>
+<section class="panel hidden" id="owner">
+<h2>Предложить свою квартиру</h2><p class="muted">Рассматриваем квартиры в Самарканде. Обсуждаем фиксированную ежемесячную оплату и условия сотрудничества.</p>
+<div class="field"><label>Ваше имя</label><input id="ownerName" placeholder="Имя собственника"></div>
+<div class="field"><label>Телефон или Telegram</label><input id="ownerContact" placeholder="@username или номер телефона"></div>
+<div class="field"><label>Район или адрес квартиры</label><input id="address" placeholder="Например, центр Самарканда"></div>
+<div class="field"><label>Количество комнат</label><select id="rooms"><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>
+<div class="field"><label>Желаемая оплата в месяц (сум)</label><input id="rent" type="number" placeholder="Например, 5000000"></div>
+<div class="field"><label>Дополнительная информация</label><textarea id="details" placeholder="Состояние квартиры, мебель и другое"></textarea></div>
+<button class="primary" onclick="send('owner')">Отправить заявку</button>
+</section>
+<p class="notice">Демонстрационная версия: формы пока показывают подготовленный текст для отправки. После размещения подключим получение заявок в Telegram и базу квартир.</p>
+</main><footer>Samarkand Rent · Самарканд, Узбекистан</footer>
+<script>
+function show(which){
+ document.getElementById('find').classList.toggle('hidden',which!=='find');
+ document.getElementById('owner').classList.toggle('hidden',which!=='owner');
+ document.getElementById('findTab').classList.toggle('active',which==='find');
+ document.getElementById('ownerTab').classList.toggle('active',which==='owner');
+}
+function send(which){
+ let ids=which==='owner'?['ownerName','ownerContact','address','rooms','rent','details']:['arrival','departure','guests','guestName','guestContact'];
+ let labels=which==='owner'?['Имя','Контакт','Адрес','Комнат','Желаемая оплата','Дополнительно']:['Заезд','Выезд','Гостей','Имя','Контакт'];
+ let lines=['Заявка Samarkand Rent',which==='owner'?'Собственник предлагает квартиру':'Запрос на подбор квартиры'];
+ ids.forEach((id,i)=>{let v=document.getElementById(id).value.trim();if(v)lines.push(labels[i]+': '+v)});
+ if(ids.slice(0,2).some(id=>!document.getElementById(id).value.trim())){alert('Пожалуйста, заполните имя и контакт.');return}
+ let text=lines.join('\n');
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>alert('Текст заявки скопирован. После подключения бота заявки будут отправляться автоматически.'),()=>alert(text));}
+ else alert(text);
+}
+</script></body></html>
